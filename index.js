@@ -1,3 +1,5 @@
+// Define the questions and answers
+//حدد الأسئلة والأجوبة
 const quizData = [
   {
     question: "What is the capital of France?",
@@ -31,37 +33,60 @@ const quizData = [
   },
 ];
 
-const question = document.getElementById("question");
-const option1 = document.getElementById("option1");
-const option2 = document.getElementById("option2");
-const option3 = document.getElementById("option3");
-const option4 = document.getElementById("option4");
-const questioncount = document.getElementById("question-counter");
+// Get the HTML elements
+//احصل على عناصر HTML
+const questionElement = document.querySelector("#question");
+const optionElements = document.querySelectorAll(".option-container button");
+const scoreElement = document.querySelector("#score");
 
-let currentQuestionIndex = 0;
+let questionIndex = 0;
 let score = 0;
 
-function displayQuestion(index) {
-  const currentQuestion = quizData[index];
-  question.innerHTML = quizData[index].question;
-  option1.innerHTML = quizData[index].options[0];
-  option2.innerHTML = quizData[index].options[1];
-  option3.innerHTML = quizData[index].options[2];
-  option4.innerHTML = quizData[index].options[3];
-  questioncount.innerHTML = `Question ${index + 1} of ${quizData.length}`;
+// Set the initial question and options
+//حدد السؤال المبدئي والخيارات
+function setQuestion() {
+  const currentQuestion = quizData[questionIndex];
+  questionElement.innerHTML = currentQuestion.question;
+  optionElements.forEach((optionElement, index) => {
+    optionElement.innerHTML = currentQuestion.options[index];
+  });
 }
 
-function checkAnswer(answerIndex) {
-  if (answerIndex === quizData[currentQuestionIndex].answer) {
+// Check the answer and update the score
+// تحقق من الإجابة وقم بتحديث النتيجة
+function checkAnswer(optionIndex) {
+  const currentQuestion = quizData[questionIndex];
+  if (optionIndex === currentQuestion.answer) {
     score++;
   }
-  currentQuestionIndex++;
-  displayQuestion(currentQuestionIndex);
-  if (currentQuestionIndex < quizData.length) {
-    displayQuestion(currentQuestionIndex);
+  questionIndex++;
+
+  if (questionIndex < quizData.length) {
+    setQuestion();
   } else {
-    alert(`Game Over! Your final score is ${score}/${quizData.length}`);
+    showResults();
   }
 }
 
-displayQuestion(currentQuestionIndex);
+// Show the quiz results
+// إظهار نتائج الاختبار
+function showResults() {
+  questionElement.style.display = "none";
+  optionElements.forEach((optionElement) => {
+    optionElement.style.display = "none";
+  });
+  scoreElement.innerHTML = `You scored ${score} out of ${quizData.length}`;
+  scoreElement.style.display = "block";
+}
+
+// Add event listeners to the option buttons
+//أضف مستمعين للأحداث إلى أزرار الخيارات
+optionElements.forEach((optionElement, index) => {
+  optionElement.addEventListener("click", () => {
+    checkAnswer(index);
+  });
+});
+
+// Set the initial question
+// تعيين السؤال الأولي
+setQuestion();
