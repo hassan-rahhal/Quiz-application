@@ -46,3 +46,8 @@ body {
 button:hover {
   background-color: #001b2e;
 }
+@media (max-width: 768px) {
+  button:hover {
+    background-color: #294c60;
+  }
+}
