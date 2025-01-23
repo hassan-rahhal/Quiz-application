@@ -47,8 +47,9 @@ function setQuestion() {
   questionElement.innerHTML = currentQuestion.question;
   optionElements.forEach((optionElement, index) => {
     optionElement.innerHTML = currentQuestion.options[index];
+    optionElement.style.backgroundColor = ''; 
   });
-  feedbackElement.style.display = "none"; // Hide feedback for next question
+  feedbackElement.style.display = "none"; 
   startTimer();
 }
 
@@ -60,19 +61,24 @@ function startTimer() {
     timerElement.innerHTML = `Time left: ${timeLeft}s`;
     if (timeLeft <= 0) {
       clearInterval(timer);
-      checkAnswer(-1); // If time runs out, move to the next question
+      checkAnswer(-1);
     }
   }, 1000);
 }
 
 function checkAnswer(optionIndex) {
   const currentQuestion = quizData[questionIndex];
+  
+  optionElements[currentQuestion.answer].style.backgroundColor = "green";
+
   if (optionIndex === currentQuestion.answer) {
     score++;
     feedbackElement.innerHTML = "Correct!";
   } else {
     feedbackElement.innerHTML = "Incorrect!";
+    optionElements[optionIndex].style.backgroundColor = "red";
   }
+
   feedbackElement.style.display = "block";
   clearInterval(timer);
 
@@ -81,9 +87,9 @@ function checkAnswer(optionIndex) {
   if (questionIndex < quizData.length) {
     setTimeout(() => {
       setQuestion();
-    }, 1000); // Wait for feedback to show before moving to the next question
+    }, 1000);
   } else {
-    setTimeout(showResults, 1000); // Show results after the last question
+    setTimeout(showResults, 1000);
   }
 }
 
@@ -98,7 +104,7 @@ function showResults() {
   scoreElement.style.display = "block";
 }
 
-setQuestion(); // Start quiz automatically when page loads
+setQuestion(); 
 
 optionElements.forEach((optionElement, index) => {
   optionElement.addEventListener("click", () => {

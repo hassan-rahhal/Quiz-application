@@ -10,7 +10,7 @@ body {
 }
 .question-container {
   width: 500px;
-  height: 250px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   border-radius: 20px;
