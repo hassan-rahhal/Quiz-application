@@ -47,9 +47,9 @@ function setQuestion() {
   questionElement.innerHTML = currentQuestion.question;
   optionElements.forEach((optionElement, index) => {
     optionElement.innerHTML = currentQuestion.options[index];
-    optionElement.style.backgroundColor = ''; 
+    optionElement.style.backgroundColor = '';
   });
-  feedbackElement.style.display = "none"; 
+  feedbackElement.style.display = "none";
   startTimer();
 }
 
@@ -68,20 +68,22 @@ function startTimer() {
 
 function checkAnswer(optionIndex) {
   const currentQuestion = quizData[questionIndex];
-  
   optionElements[currentQuestion.answer].style.backgroundColor = "green";
 
-  if (optionIndex === currentQuestion.answer) {
-    score++;
-    feedbackElement.innerHTML = "Correct!";
+  if (optionIndex !== -1) {
+    if (optionIndex === currentQuestion.answer) {
+      score++;
+      feedbackElement.innerHTML = "Correct!";
+    } else {
+      feedbackElement.innerHTML = "Incorrect!";
+      optionElements[optionIndex].style.backgroundColor = "red";
+    }
   } else {
-    feedbackElement.innerHTML = "Incorrect!";
-    optionElements[optionIndex].style.backgroundColor = "red";
+    feedbackElement.innerHTML = "Time's up! Incorrect!";
   }
 
   feedbackElement.style.display = "block";
   clearInterval(timer);
-
   questionIndex++;
 
   if (questionIndex < quizData.length) {
@@ -104,7 +106,7 @@ function showResults() {
   scoreElement.style.display = "block";
 }
 
-setQuestion(); 
+setQuestion();
 
 optionElements.forEach((optionElement, index) => {
   optionElement.addEventListener("click", () => {
